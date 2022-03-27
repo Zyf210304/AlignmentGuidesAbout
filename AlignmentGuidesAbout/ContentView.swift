@@ -10,146 +10,123 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         
+        let titile = ["姓名", "专业爱好", "最恨之人"]
+        let content = ["张三", "挑战刑法", "罗老师"]
+        let color = [Color.red, Color.green, Color.orange]
         
         VStack {
             
             Spacer()
             
-            HStack {
-                VStack {
+            HStack(alignment: .bottom) {
+                
+                Image(systemName: "applelogo")
+                    .font(.largeTitle)
                     
-                    HStack(alignment: .bottom) {
-                      Image(systemName: "applelogo")
-                        .font(.largeTitle)
-                        .alignmentGuide(.bottom, computeValue: { d in d[.bottom] - 10})
-                      Text("Apple")
+                Text("logo")
+                    .alignmentGuide(.bottom) { context in
+                        context[.bottom] + 10
                     }
-                }
+                
             }
             
             Spacer()
             
-            HStack(alignment: .midAccountAndName) {
+            HStack(alignment: .vCustom) {
                 
                 VStack {
                     
-                    
                     Text("悬赏令")
-                        .alignmentGuide(.midAccountAndName){ d in
-                            d[VerticalAlignment.bottom]
+                        .font(.title)
+                        .alignmentGuide(.vCustom) { context in
+                            context[VerticalAlignment.center]
                         }
                     Image("luffy")
                         .resizable()
-                        .frame(width: 64, height: 64)
+                        .frame(width: 64, height: 63)
                 }
                 
                 VStack {
                     
-                    Text("Live or Die")
                     Text("蒙奇D路飞")
-                        .alignmentGuide(.midAccountAndName){ d in
-                            d[VerticalAlignment.bottom]
+                    Text("live OR  die")
+                        .alignmentGuide(.vCustom) { context in
+                            context[VerticalAlignment.center]
                         }
-                        .font(.largeTitle)
-                        
                 }
             }
             
             Spacer()
-
+            
             HStack {
                 
-                VStack(alignment: .trailing) {
-                    Text("phone")
-                    Text("email")
-                }
-                
-                VStack(alignment: .leading) {
+                VStack(alignment:.trailing) {
                     
-                    Text("1111111000")
-                    Text("xxx@yyy.com77777")
+                    Text("姓名")
+                    Text("专业爱好")
+                }
+                .foregroundColor(.red)
+                
+                VStack {
+                    
+                    Text("张三")
+                    Text("刑法")
+                    
                 }
             }
-           
+            
             Spacer()
             
-            HStack {
+            VStack(alignment: .hCustom) {
                 
-                HStack{
-                    VStack(alignment: .custom, spacing: 10) {
+                ForEach(0..<titile.count) { position in
+                    
+                    HStack {
                         
-                        HStack {
-                            
-                            Text("手机")
-                                .alignmentGuide(.custom) { d in
-                                    d[HorizontalAlignment.trailing]
-                                }
-                            Text("110110119")
-                        }
-                        HStack {
-                            
-                            Text("电子邮件")
-                                .alignmentGuide(.custom) { d in
-                                    d[HorizontalAlignment.trailing]
-                                }
-                            Text("xxxxxx@yy.com")
-                        }
-                        .font(.title2)
+                        Text(titile[position])
+                            .alignmentGuide(.hCustom) { context in
+                                context[HorizontalAlignment.trailing]
+                            }
+                        Text(content[position])
                     }
+                    .foregroundColor(color[position])
                 }
-                .padding(.leading, 16)
                 
-                Spacer()
             }
-            .padding()
-            .foregroundColor(.white)
-            .background(Rectangle()
-                .fill(Color.black)
-                .cornerRadius(8))
-            .padding(.horizontal)
             
-            Spacer(minLength: 100)
+            Spacer()
+        }
+        
+        
+    }
+}
+
+extension VerticalAlignment {
+    
+    struct VCustom: AlignmentID {
+        
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            
+            context[.top]
         }
     }
     
-
+    static let vCustom = VerticalAlignment(VCustom.self)
 }
 
-
-extension VerticalAlignment {
-    struct MidAccountAndName: AlignmentID {
-        static func defaultValue(in d: ViewDimensions) -> CGFloat {
-            d[.bottom]
-        }
-    }
-
-    static let midAccountAndName = VerticalAlignment(MidAccountAndName.self)
-}
 
 extension HorizontalAlignment {
     
-    enum CustomAlignment: AlignmentID {
+    struct HCustom: AlignmentID {
         
         static func defaultValue(in context: ViewDimensions) -> CGFloat {
-            context[.leading]
+            
+            context[.top]
         }
     }
     
-    static let custom = HorizontalAlignment(CustomAlignment.self)
+    static let hCustom = HorizontalAlignment(HCustom.self)
 }
-
-//extension VerticalAlignment {
-//
-//    enum MidAccountAndName: AlignmentID {
-//
-//        static func defaultValue(in context: ViewDimensions) -> CGFloat {
-//
-//            context[.top]
-//        }
-//    }
-//
-//    static let midAccountAndName = VerticalAlignment(MidAccountAndName.self)
-//}
 
 
 
